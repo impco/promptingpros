@@ -1,4 +1,5 @@
-/* VERSION 15.49 - Add 10px gap between label and value in Contact Info cards (label was nearly touching the value after v15.48 zeroed the value's internal padding)
+/* VERSION 15.50 - Refactor: font forcing, vendor prefix cleanup, duplicate bg removal, Login to Comment gradient btn, search border fix, nav-justified menu fix, textarea stretch
+   Previous (v15.49): Add 10px gap between label and value in Contact Info cards (label was nearly touching the value after v15.48 zeroed the value's internal padding)
    Previous (v15.48): Zero value-col internal vertical padding inside Contact Info cards. The 15px padding on col-sm-8 made bottom visually 32px while top was 17px (asymmetric).
    Previous (v15.47): Tighten Contact Info card vertical padding 24px → 14px (24px was too generous; cards looked oversized)
    Previous (v15.46): Add vertical padding to Contact Info cards (was 4px top/bottom — title hugged the top edge). Now 24px top/bottom for breathing room.
@@ -19,7 +20,6 @@
    Previous (v15.30): Consistent #first_container padding (works whether or not BD outputs a breadcrumb at top of content) + zero breadcrumb margin-top so pages with one don't double up
    Previous (v15.29): Narrow banner-ad zero rule to top/bottom positions ONLY (not in-content ad slots), remove #first_container padding override
    Previous (v15.28): Tighten content-container padding + neutralize BD's first/last-child default margins (broke in-content rhythm)
-
 
 
    PURPOSE: Global override stylesheet for PRPR site on Brilliant Directories
@@ -178,6 +178,27 @@ body.prpr-theme .footer-banner-container {
 
 /* Font Import - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+/* Font forcing — BD Design Settings injects alternate fonts */
+body.prpr-theme button, body.prpr-theme input, body.prpr-theme select,
+body.prpr-theme textarea, body.prpr-theme optgroup, body.prpr-theme option,
+body.prpr-theme .btn, body.prpr-theme .dropdown-menu,
+body.prpr-theme .dropdown-menu li a, body.prpr-theme .help-block,
+body.prpr-theme .form-control, body.prpr-theme .input-group-addon,
+body.prpr-theme .bootstrap-select .dropdown-menu,
+body.prpr-theme .bootstrap-select .dropdown-menu li a,
+body.prpr-theme .select2-container, body.prpr-theme .select2-choice,
+body.prpr-theme .select2-chosen, body.prpr-theme .select2-search input,
+body.prpr-theme .select2-results, body.prpr-theme .select2-result-label {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+body.prpr-theme, body.prpr-theme p, body.prpr-theme li,
+body.prpr-theme span, body.prpr-theme div, body.prpr-theme small,
+body.prpr-theme strong, body.prpr-theme em, body.prpr-theme label,
+body.prpr-theme .text-muted, body.prpr-theme .help-block,
+body.prpr-theme .breadcrumb, body.prpr-theme .nav,
+body.prpr-theme .dropdown-menu, body.prpr-theme .dropdown-menu li a {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
 
 
 /* =====================================================
@@ -264,7 +285,6 @@ body.prpr-theme .footer-banner-container {
 html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body.prpr-theme {
@@ -550,7 +570,6 @@ body.prpr-theme .btn-xlg {
   padding: 12px 24px;
   border-radius: var(--radius-md);
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   border: none !important;
   color: var(--text-primary) !important;
   font-weight: 700;
@@ -601,7 +620,6 @@ body.prpr-theme form .btn-success[type="submit"]:not(.fv-hidden-submit),
 body.prpr-theme form button.btn-success:not(.fv-hidden-submit),
 body.prpr-theme .publish-post-button {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   color: var(--text-primary) !important;
   border: none !important;
   padding: 12px 24px !important;
@@ -645,7 +663,6 @@ body.prpr-theme button.btn-default {
   line-height: 1.2;
   box-shadow: none;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   letter-spacing: 0.01em;
 }
 
@@ -676,7 +693,6 @@ body.prpr-theme .photo-album-display-order.btn {
   box-shadow: none !important;
   font-weight: 700 !important;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 body.prpr-theme .photo-album-display-order:hover,
@@ -754,7 +770,6 @@ body.prpr-theme .form-control:not([type="checkbox"]) {
 
 /* Search clear button - brand blue and centered */
 body.prpr-theme input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
   appearance: none;
   width: 16px;
   height: 16px;
@@ -787,7 +802,6 @@ body.prpr-theme input.input-lg,
 body.prpr-theme .form-control.input-lg,
 body.prpr-theme .form-group input {
   background: #0b1221 !important;
-  background-color: #0b1221 !important;
   color: var(--text-muted) !important;
   border: 1px solid var(--border-input) !important;
 }
@@ -800,21 +814,12 @@ body.prpr-theme .form-control::placeholder {
   opacity: 0.7;
 }
 
-body.prpr-theme input::-webkit-input-placeholder,
-body.prpr-theme textarea::-webkit-input-placeholder { color: var(--text-muted); opacity: 0.7; }
-body.prpr-theme input::-moz-placeholder,
-body.prpr-theme textarea::-moz-placeholder { color: var(--text-muted); opacity: 0.7; }
-body.prpr-theme input:-ms-input-placeholder,
-body.prpr-theme textarea:-ms-input-placeholder { color: var(--text-muted); opacity: 0.7; }
-
 /* Select dropdowns - fix text cutoff + caret spacing */
 body.prpr-theme select:not([multiple]):not([size]),
 body.prpr-theme select[size="1"]:not([multiple]),
 body.prpr-theme select.form-control:not([multiple]):not([size]),
 body.prpr-theme select.form-control[size="1"]:not([multiple]) {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   height: 42px;
   min-height: 42px;
   line-height: 1.4;
@@ -865,11 +870,9 @@ body.prpr-theme div.select2-drop-mask,
 div.select2-drop-mask,
 #select2-drop-mask {
   background: transparent !important;
-  background-color: transparent !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
-  -webkit-appearance: none !important;
 }
 
 /* Select2 dropdown container - remove all borders */
@@ -968,7 +971,6 @@ body.prpr-theme .select2-container .select2-choice:active,
 body.prpr-theme .select2-dropdown-open .select2-choice,
 body.prpr-theme .select2-dropdown-open a.select2-choice {
   background: #0b1221 !important;
-  background-color: #0b1221 !important;
   background-image: none !important;
   color: var(--text-primary, #EAF2FF) !important;
   border: 1px solid var(--border-input, #1F2A44) !important;
@@ -1339,7 +1341,6 @@ body.prpr-theme textarea[rows],
 body.prpr-theme textarea#bootstrap_get_match_328-element-24,
 body.prpr-theme textarea[id*="bootstrap_get_match"][id*="element"] {
   background: #0b1221 !important;
-  background-color: #0b1221 !important;
   background-image: none !important;
   color: var(--text-muted) !important;
   border: 1px solid var(--border-default) !important;
@@ -1388,8 +1389,6 @@ body.prpr-theme .checkbox input[type="checkbox"],
 body.prpr-theme label input[type="checkbox"],
 body.prpr-theme .form-group input[type="checkbox"],
 body.prpr-theme .form-control[type="checkbox"] {
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
   appearance: none !important;
   width: 22px !important;
   height: 22px !important;
@@ -1458,8 +1457,6 @@ body.prpr-theme div.checkbox[style*="display: none"] {
 /* Exclude .rating inputs (star rating widget uses hidden radios + label stars) */
 body.prpr-theme input[type="radio"]:not(.rating input) {
   appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
   width: 20px !important;
   height: 20px !important;
   min-width: 20px !important;
@@ -1661,7 +1658,6 @@ body.prpr-theme input[type="datetime-local"]::-webkit-calendar-picker-indicator 
 body.prpr-theme .bootstrap-datetimepicker-widget,
 body.prpr-theme .bootstrap-datetimepicker-widget.dropdown-menu {
   background: var(--bg-card) !important;
-  background-color: #0f1525 !important;
   border-radius: var(--radius-xl) !important;
   border: 2px solid var(--border-default) !important;
   color: var(--text-primary) !important;
@@ -1677,7 +1673,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget *,
 body.prpr-theme .bootstrap-datetimepicker-widget *::before,
 body.prpr-theme .bootstrap-datetimepicker-widget *::after {
   background: transparent !important;
-  background-color: transparent !important;
   color: var(--text-primary) !important;
   border-color: var(--border-default) !important;
 }
@@ -1696,7 +1691,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget .collapsing,
 body.prpr-theme .bootstrap-datetimepicker-widget > ul,
 body.prpr-theme .bootstrap-datetimepicker-widget .list-unstyled {
   background: transparent !important;
-  background-color: transparent !important;
 }
 
 /* Specific datepicker view containers */
@@ -1711,7 +1705,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget .datepicker-months,
 body.prpr-theme .bootstrap-datetimepicker-widget .datepicker-years,
 body.prpr-theme .bootstrap-datetimepicker-widget .datepicker-decades {
   background: transparent !important;
-  background-color: transparent !important;
 }
 
 /* Timepicker view containers */
@@ -1722,7 +1715,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-hours,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-minutes,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-seconds {
   background: transparent !important;
-  background-color: transparent !important;
 }
 
 .bootstrap-datetimepicker-widget table,
@@ -1731,7 +1723,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-seconds {
 .bootstrap-datetimepicker-widget table tr,
 body.prpr-theme .bootstrap-datetimepicker-widget table {
   background: transparent !important;
-  background-color: transparent !important;
 }
 
 .bootstrap-datetimepicker-widget td,
@@ -1739,7 +1730,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget table {
 body.prpr-theme .bootstrap-datetimepicker-widget td,
 body.prpr-theme .bootstrap-datetimepicker-widget th {
   background: transparent !important;
-  background-color: transparent !important;
   border-color: transparent !important;
   color: var(--text-primary) !important;
   padding: 8px !important;
@@ -1821,7 +1811,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget .timepicker *,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-picker,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-picker * {
   background: transparent !important;
-  background-color: transparent !important;
   color: var(--text-primary) !important;
 }
 
@@ -1835,7 +1824,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-minute,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-second,
 body.prpr-theme .bootstrap-datetimepicker-widget span[data-action] {
   background: transparent !important;
-  background-color: transparent !important;
   color: var(--text-primary) !important;
   border: none !important;
   box-shadow: none !important;
@@ -1847,7 +1835,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget span[data-action] {
 body.prpr-theme .bootstrap-datetimepicker-widget .hour,
 body.prpr-theme .bootstrap-datetimepicker-widget .minute {
   background: transparent !important;
-  background-color: transparent !important;
   color: var(--text-primary) !important;
   border-radius: var(--radius-md) !important;
 }
@@ -1882,7 +1869,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget span[data-action],
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-hour,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-minute {
   background: transparent !important;
-  background-color: transparent !important;
   color: var(--text-primary) !important;
   border: none !important;
   border-radius: var(--radius-lg) !important;
@@ -1899,7 +1885,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget span[data-action]:hover,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-hour:hover,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-minute:hover {
   background: var(--color-blue) !important;
-  background-color: #4C78ED !important;
   color: var(--text-dark) !important;
 }
 
@@ -1927,7 +1912,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget .timepicker td,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-hours td,
 body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-minutes td {
   background: transparent !important;
-  background-color: transparent !important;
 }
 
 /* Standard datepicker dropdown */
@@ -1936,7 +1920,6 @@ body.prpr-theme .bootstrap-datetimepicker-widget .timepicker-minutes td {
 body.prpr-theme .datepicker,
 body.prpr-theme .datepicker-dropdown {
   background: var(--bg-card) !important;
-  background-color: #0f1525 !important;
   border: 2px solid var(--border-default) !important;
   color: var(--text-primary) !important;
   border-radius: var(--radius-xl) !important;
@@ -2063,7 +2046,6 @@ body.prpr-theme .ui-datepicker-calendar,
 body.prpr-theme .ui-widget-content,
 body.prpr-theme .ui-widget-header {
   background: var(--bg-card) !important;
-  background-color: #0f1525 !important;
   border: 2px solid var(--border-default) !important;
   color: var(--text-primary) !important;
   border-radius: var(--radius-xl) !important;
@@ -2099,7 +2081,6 @@ body.prpr-theme .xdsoft_datetimepicker,
 body.prpr-theme .xdsoft_timepicker,
 body.prpr-theme .xdsoft_datepicker {
   background: var(--bg-card) !important;
-  background-color: #0f1525 !important;
   color: var(--text-primary) !important;
   border-radius: var(--radius-xl) !important;
   border: 2px solid var(--border-default) !important;
@@ -2388,7 +2369,6 @@ body.prpr-theme .fr-color-hex-layer {
 
 body.prpr-theme .fr-popup .fr-color-hex-layer .fr-input-line input {
   background: #0b1221 !important;
-  background-color: #0b1221 !important;
   border: 1px solid var(--border-default) !important;
   color: var(--text-primary) !important;
 }
@@ -2399,7 +2379,6 @@ body.prpr-theme .fr-popup label,
 body.prpr-theme .fr-color-hex-layer label {
   color: var(--text-primary) !important;
   background: transparent !important;
-  background-color: transparent !important;
 }
 
 body.prpr-theme .fr-popup .fr-color-hex-layer .fr-submit {
@@ -2686,6 +2665,29 @@ body.prpr-theme .navbar-default {
 }
 
 /* Navigation links */
+
+/* Fix nav-justified conflict — BD test sites add this class to navbar-nav,
+   which sets display:table-cell + width:1% and causes items to overlap. */
+body.prpr-theme .navbar-nav.nav-justified,
+body.prpr-theme ul.nav.navbar-nav.nav-justified,
+body.prpr-theme ul.tablet-menu-ul.nav.navbar-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 4px !important;
+  width: 100% !important;
+}
+
+body.prpr-theme .navbar-nav.nav-justified > li,
+body.prpr-theme ul.nav.navbar-nav.nav-justified > li,
+body.prpr-theme ul.tablet-menu-ul.nav.navbar-nav > li {
+  display: inline-block !important;
+  float: none !important;
+  width: auto !important;
+  position: relative !important;
+}
+
 body.prpr-theme .navbar-nav a {
   color: var(--text-primary);
   font-weight: 600;
@@ -3592,7 +3594,6 @@ body.prpr-theme .card-surface {
   box-shadow: var(--shadow-soft);
   padding: var(--space-lg);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 
 body.prpr-theme .card-soft {
@@ -3602,7 +3603,6 @@ body.prpr-theme .card-soft {
   box-shadow: var(--shadow-subtle);
   padding: var(--space-md);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 /* Panel base styling */
@@ -3620,7 +3620,6 @@ body.prpr-theme .panel-heading {
 body.prpr-theme .categories-panel .panel-heading,
 body.prpr-theme [class*="category-section"] .panel-heading {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   border-bottom: none !important;
   color: var(--text-strong) !important;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
@@ -4508,7 +4507,6 @@ body.prpr-theme .non-search-user-contact-us a.btn.btn-xs.btn-default {
   letter-spacing: inherit !important;
   text-align: inherit !important;
   backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
   transform: none !important;
   color: var(--text-link) !important;
   text-decoration: none !important;
@@ -4784,7 +4782,6 @@ body.prpr-theme .member_sidebar {
 
 body.prpr-theme div.well.member_admin_sidemenu {
   background: #0F1525 !important;
-  background-color: #0F1525 !important;
   background-image: none !important;
   padding: 10px 22px 22px !important;
   text-align: left !important;
@@ -4854,7 +4851,6 @@ body.prpr-theme .well.member_admin_sidemenu .upgrade-listing-link {
 /* Sidebar containers - remove box backgrounds */
 body.prpr-theme .sidemenu_panel {
   background: transparent !important;
-  background-color: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
   border-color: transparent !important;
@@ -4876,7 +4872,6 @@ body.prpr-theme .sidemenu_panel .well,
 body.prpr-theme .sidemenu_panel .module,
 body.prpr-theme .sidemenu_panel .alert {
   background: transparent !important;
-  background-color: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
@@ -4903,7 +4898,6 @@ body.prpr-theme .sidemenu_panel a.list-group-item:focus,
 body.prpr-theme .sidemenu_panel a.list-group-item:active,
 body.prpr-theme .sidemenu_panel .list-group > .list-group-item {
   background: transparent !important;
-  background-color: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
   border-color: transparent !important;
@@ -4914,7 +4908,6 @@ body.prpr-theme .member_sidebar .list-group-item::after,
 body.prpr-theme .sidemenu_panel .list-group-item::before,
 body.prpr-theme .sidemenu_panel .list-group-item::after {
   background: transparent !important;
-  background-color: transparent !important;
 }
 
 body.prpr-theme .member_sidebar .list-group a,
@@ -4926,7 +4919,6 @@ body.prpr-theme .sidemenu_panel .list-group a:hover,
 body.prpr-theme .sidemenu_panel .list-group a:focus,
 body.prpr-theme .sidemenu_panel .list-group a:active {
   background: transparent !important;
-  background-color: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
   color: var(--text-primary) !important;
@@ -4978,7 +4970,6 @@ body.prpr-theme .sidemenu_panel .well,
 body.prpr-theme .sidemenu_panel .module,
 body.prpr-theme .sidemenu_panel .alert {
   background: transparent !important;
-  background-color: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
@@ -5005,7 +4996,6 @@ body.prpr-theme [class*="dashboard"] a.btn.btn-block.btn-success {
   box-shadow: none;
   letter-spacing: 0.01em;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 body.prpr-theme .dashboard-account-details a.btn.btn-block.btn-success:hover,
@@ -5031,7 +5021,6 @@ body.prpr-theme .btn.toggle-member-info {
   box-shadow: none;
   letter-spacing: 0.01em;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   position: relative;
   white-space: nowrap !important;
   width: auto !important;
@@ -6471,7 +6460,6 @@ body.prpr-theme .text-teal-bright { color: var(--color-teal-bright); }
 body.prpr-theme .btn.btn-primary.btn-block.btn-lg.btn-get-matched-submit,
 body.prpr-theme button.btn.btn-primary.btn-block.btn-lg.btn-get-matched-submit {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   color: var(--text-primary) !important;
   border: none !important;
   padding: 14px 28px !important;
@@ -6908,7 +6896,6 @@ body.prpr-theme input.tt-input::-webkit-search-cancel-button,
 body.prpr-theme input.tt-input::-webkit-clear-button,
 body.prpr-theme input.md-autosuggest-input::-webkit-search-cancel-button,
 body.prpr-theme input.md-autosuggest-input::-webkit-clear-button {
-  -webkit-appearance: none;
   appearance: none;
   width: 16px;
   height: 16px;
@@ -7112,7 +7099,6 @@ body.prpr-theme #follow-post.follow-comments {
   box-shadow: none !important;
   letter-spacing: 0.01em !important;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 body.prpr-theme .follow-comments:hover {
@@ -7130,10 +7116,11 @@ body.prpr-theme .write_comment_container .input-group {
 body.prpr-theme .member_login.input-group-addon,
 body.prpr-theme span.input-group-addon.btn.btn-primary.member_login,
 body.prpr-theme .write_comment_container .member_login {
-  background: #D97706 !important;
-  background-image: none !important;
+  background: var(--gradient-primary) !important;
+  background-image: var(--gradient-primary) !important;
   border: none !important;
-  color: #0B1425 !important;
+  color: var(--text-primary) !important;
+  box-shadow: var(--shadow-soft) !important;
   border-radius: var(--radius-md) !important;
   margin-left: 0 !important;
   margin-top: 12px !important;
@@ -7225,7 +7212,21 @@ body.prpr-theme .comments-filter-module #comment_search {
   box-shadow: none !important;
 }
 
-body.prpr-theme .comments-filter-module .form-control,
+/* Form controls inside input-group: no individual borders (wrapper has the border) */
+body.prpr-theme .comments-filter-module .input-group .form-control,
+body.prpr-theme .comments-filter-module .input-group #comment_search {
+  background: var(--bg-elevated) !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  color: var(--text-primary) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  box-shadow: none !important;
+}
+
+/* Standalone form controls outside input-group (e.g. sort dropdown) */
+body.prpr-theme .comments-filter-module .form-control:not(.input-group .form-control),
 body.prpr-theme #comment_sort,
 body.prpr-theme select#comment_sort {
   background: var(--bg-elevated) !important;
@@ -7233,16 +7234,6 @@ body.prpr-theme select#comment_sort {
   border: 1px solid var(--border-default) !important;
   color: var(--text-primary) !important;
   border-radius: var(--radius-md) !important;
-  font-family: 'Poppins', sans-serif !important;
-  font-size: 14px !important;
-}
-
-/* Override: #comment_search inside input-group gets NO border (unified on wrapper) */
-body.prpr-theme .comments-filter-module .input-group #comment_search {
-  border: none !important;
-  border-radius: 0 !important;
-  background: var(--bg-elevated) !important;
-  color: var(--text-primary) !important;
   font-family: 'Poppins', sans-serif !important;
   font-size: 14px !important;
 }
@@ -7266,12 +7257,14 @@ body.prpr-theme textarea.form-control.custom-control {
   border: 1px solid var(--border-default) !important;
   color: var(--text-primary) !important;
   border-radius: var(--radius-md) !important;
-  resize: both !important;
+  resize: vertical !important;
   overflow: auto !important;
-  min-height: 80px !important;
+  min-height: 100px !important;
   max-height: none !important;
+  height: auto !important;
   width: 100% !important;
   flex: 1 1 auto !important;
+  box-sizing: border-box !important;
 }
 
 /* Main comment input group - allow textarea resize (flex column) */
@@ -7512,7 +7505,6 @@ html body .swal2-container .swal2-popup,
 div.swal2-container div.swal2-popup,
 .swal2-popup {
   background: #0F1525 !important;
-  background-color: #0F1525 !important;
   border: 1px solid #1F2A44 !important;
   border-radius: 12px !important;
   font-family: 'Poppins', sans-serif !important;
@@ -7539,7 +7531,6 @@ div.swal2-html-container {
 .swal2-popup.swal2-show button.swal2-confirm,
 button.swal2-confirm.swal2-styled {
   background: linear-gradient(135deg, #8e027c 0%, #4D1A9F 50%, #00697A 100%) !important;
-  background-color: transparent !important;
   border: none !important;
   color: #EAF2FF !important;
   font-family: 'Poppins', sans-serif !important;
@@ -7550,7 +7541,6 @@ button.swal2-confirm.swal2-styled {
 .swal2-popup.swal2-show button.swal2-cancel,
 button.swal2-cancel.swal2-styled {
   background: #D97706 !important;
-  background-color: #D97706 !important;
   border: none !important;
   color: #0B1425 !important;
   font-family: 'Poppins', sans-serif !important;
@@ -7723,7 +7713,6 @@ body.prpr-theme .btn.btn-primary.contact-member {
   color: var(--text-primary) !important;
   box-shadow: none;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 body.prpr-theme .btn.btn-primary.contact-member:hover {
@@ -7826,7 +7815,6 @@ body.prpr-theme .related-post-title.fpad.text-center.btn-default {
   box-shadow: none !important;
   transition: transform var(--transition-standard), box-shadow var(--transition-standard) !important;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 body.prpr-theme .related-post-title.fpad.text-center.btn-default:hover {
@@ -7962,7 +7950,6 @@ body.prpr-theme .data-upload-image input.the-photo-upload-input-button {
   border: none !important;
   box-shadow: none !important;
   appearance: auto !important;
-  -webkit-appearance: auto !important;
 }
 
 /* Profile photo upload — hide native input, let styled button handle it */
@@ -8040,7 +8027,6 @@ body.prpr-theme .data-upload-image input#_submit[value*="Select Images Then Conf
 body.prpr-theme .data-upload-image input#_submit[value*="Click To Confirm" i],
 body.prpr-theme .data-upload-image input#_submit[value*="Confirm Image Upload" i] {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   border: none !important;
   color: var(--text-primary) !important;
   font-weight: 700 !important;
@@ -8063,7 +8049,6 @@ body.prpr-theme .data-upload-image input#_submit[value*="Confirm Image Upload" i
 body.prpr-theme input#_submit.btn.btn-primary:not([disabled]),
 body.prpr-theme input#_submit.btn-primary:not([disabled]) {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   border: none !important;
   color: var(--text-primary) !important;
   font-weight: 700 !important;
@@ -8095,7 +8080,6 @@ body.prpr-theme .data-upload-image button.btn.btn-danger {
   box-shadow: none !important;
   letter-spacing: 0.01em !important;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 body.prpr-theme .data-upload-image a.btn.btn-danger:hover,
@@ -8331,7 +8315,6 @@ body.prpr-theme .panel-default > .panel-heading:hover,
 body.prpr-theme .panel-default > .panel-heading:focus,
 body.prpr-theme .panel-default > .panel-heading:active {
   background: transparent !important;
-  background-color: transparent !important;
   box-shadow: none !important;
 }
 
@@ -8342,7 +8325,6 @@ body.prpr-theme .panel-heading .panel-title a,
 body.prpr-theme .panel-heading .panel-title a:hover,
 body.prpr-theme .panel-heading .panel-title a:focus {
   background: transparent !important;
-  background-color: transparent !important;
   box-shadow: none !important;
 }
 
@@ -8356,7 +8338,6 @@ body.prpr-theme [class*="category-section"] .panel-heading:focus,
 body.prpr-theme .categories-panel .panel-heading:active,
 body.prpr-theme [class*="category-section"] .panel-heading:active {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   border-bottom: none !important;
   color: var(--text-strong) !important;
 }
@@ -8933,7 +8914,6 @@ body.prpr-theme .bootstrap-select > .dropdown-toggle .caret {
 .daterangepicker,
 body.prpr-theme .daterangepicker {
   background: var(--bg-card) !important;
-  background-color: #0f1525 !important;
   border: 2px solid var(--border-default) !important;
   border-radius: var(--radius-xl) !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
@@ -9607,7 +9587,6 @@ body.prpr-theme .modal .btn-success,
 body.prpr-theme .sweet-alert .btn-primary,
 body.prpr-theme .sweet-alert .btn-success {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   border: none !important;
   color: var(--text-primary) !important;
   font-weight: 600;
@@ -9644,7 +9623,6 @@ body.prpr-theme .sweet-alert .btn-default {
   box-shadow: none !important;
   letter-spacing: 0.01em !important;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   transition: transform var(--transition-standard), box-shadow var(--transition-standard);
 }
 
@@ -9754,7 +9732,6 @@ body.prpr-theme #swal2-content {
 body.prpr-theme .swal2-confirm,
 body.prpr-theme .swal2-styled.swal2-confirm {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   border: none !important;
   color: var(--text-primary) !important;
   font-weight: 600;
@@ -9849,14 +9826,12 @@ body.prpr-theme .swal2-container {
 .swal2-popup .swal2-success-circular-line-right,
 .swal2-popup .swal2-success-fix {
   background: #0F1525 !important;
-  background-color: #0F1525 !important;
 }
 
 body.prpr-theme .swal2-success-circular-line-left,
 body.prpr-theme .swal2-success-circular-line-right,
 body.prpr-theme .swal2-success-fix {
   background: var(--bg-card) !important;
-  background-color: var(--bg-card) !important;
 }
 
 /* =====================================================
@@ -9872,7 +9847,6 @@ body.prpr-theme textarea.custom-control,
 body.prpr-theme textarea[id*="element"],
 body.prpr-theme .form-group textarea {
   background: #0F1525 !important;
-  background-color: #0F1525 !important;
   background-image: none !important;
   border: 1px solid var(--border-default) !important;
   color: var(--text-primary) !important;
@@ -9902,7 +9876,6 @@ html body.prpr-theme textarea[name],
 html body.prpr-theme textarea[class],
 html body.prpr-theme textarea[style] {
   background: #0b1221 !important;
-  background-color: #0b1221 !important;
   background-image: none !important;
   background-blend-mode: normal !important;
   color: #EAF2FF !important;
@@ -9954,7 +9927,6 @@ body.prpr-theme .prpr-4col-box {
   margin-bottom: 12px;
   text-align: center;
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 /* Row spacing */
@@ -10455,7 +10427,6 @@ body.prpr-theme #business-essentials .solution-offer .badge.label-info-subtle {
 
 body.prpr-theme #business-essentials .solution-cta .btn {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   border: none !important;
   color: var(--text-primary) !important;
   font-weight: 700;
@@ -10988,7 +10959,6 @@ body.prpr-theme .form-inquiry-details th[colspan] {
 /* Purchase button — gradient with glow */
 body.prpr-theme .purchase-lead {
   background: var(--gradient-primary) !important;
-  background-image: var(--gradient-primary) !important;
   color: #fff !important;
   font-weight: 700;
   border: none !important;
