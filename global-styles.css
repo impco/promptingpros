@@ -1,4 +1,5 @@
-/* VERSION 15.49 - Add 10px gap between label and value in Contact Info cards (label was nearly touching the value after v15.48 zeroed the value's internal padding)
+/* VERSION 15.50 - Sidebar search clear-X positioning fix: adds .normal-autosuggest variant alongside the existing .md-autosuggest rule. Without this, the X clear button in sidebar search widgets drifted to the top of the input instead of centering vertically.
+   Previous (v15.49): Add 10px gap between label and value in Contact Info cards (label was nearly touching the value after v15.48 zeroed the value's internal padding)
    Previous (v15.48): Zero value-col internal vertical padding inside Contact Info cards. The 15px padding on col-sm-8 made bottom visually 32px while top was 17px (asymmetric).
    Previous (v15.47): Tighten Contact Info card vertical padding 24px → 14px (24px was too generous; cards looked oversized)
    Previous (v15.46): Add vertical padding to Contact Info cards (was 4px top/bottom — title hugged the top edge). Now 24px top/bottom for breathing room.
@@ -6798,6 +6799,16 @@ body.prpr-theme .md-autosuggest .twitter-typeahead .input_wrapper {
 
 body.prpr-theme .md-autosuggest .input_wrapper .clear_content,
 body.prpr-theme .md-autosuggest .twitter-typeahead .input_wrapper .clear_content {
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+  right: 12px !important;
+}
+
+/* Sidebar search clear-X positioning — mirrors the .md-autosuggest rule
+   above for the .normal-autosuggest variant used by sidebar search widgets. */
+body.prpr-theme .normal-autosuggest .input_wrapper .clear_content,
+body.prpr-theme .normal-autosuggest .twitter-typeahead .input_wrapper .clear_content {
   top: 50% !important;
   bottom: auto !important;
   transform: translateY(-50%) !important;
