@@ -1,5 +1,7 @@
-/* VERSION 15.51 - Add .disclaimer-box utility class: cosmic-gradient border ring (pink → purple → teal) over dark card center, for the custom job/post disclaimer widgets. Replaces Bootstrap's yellow alert-warning styling.
-   Previous (v15.50): Sidebar search clear-X positioning fix (.normal-autosuggest variant) — see icon-alignment branch
+/* VERSION 15.53 - Sticky-footer flex layout: short pages (e.g. /login) push footer to viewport bottom instead of leaving a slim gap. Long pages render unchanged. Added as SECTION 0 (F).
+   Previous (v15.52): Land the .normal-autosuggest clear-X positioning rule referenced in the v15.50 changelog (rule body was missing from main; only the changelog mentioned it). Centers the X clear button in sidebar search widgets.
+   Previous (v15.51): Add .disclaimer-box utility class: cosmic-gradient border ring (pink → purple → teal) over dark card center, for the custom job/post disclaimer widgets. Replaces Bootstrap's yellow alert-warning styling.
+   Previous (v15.50): Sidebar search clear-X positioning fix (.normal-autosuggest variant) — documented but body landed in v15.52
    Previous (v15.49): Add 10px gap between label and value in Contact Info cards (label was nearly touching the value after v15.48 zeroed the value's internal padding)
    Previous (v15.48): Zero value-col internal vertical padding inside Contact Info cards. The 15px padding on col-sm-8 made bottom visually 32px while top was 17px (asymmetric).
    Previous (v15.47): Tighten Contact Info card vertical padding 24px → 14px (24px was too generous; cards looked oversized)
@@ -134,6 +136,25 @@ body.prpr-theme #first_container {
 body.prpr-theme #first_container ol.breadcrumb {
   margin-top: 0 !important;
   margin-bottom: clamp(16px, 2vw, 24px) !important;
+}
+
+/* (F) Sticky-footer flex layout (v15.53).
+   On short pages (e.g. /login when already signed in), the footer was hugging
+   the content with only ~16-24px of breathing room. This pattern makes <body>
+   a flex column at min-height 100vh, lets the main content area grow to fill
+   remaining viewport, and keeps the footer at viewport bottom on short pages.
+   Long pages are unaffected — content flows naturally and footer follows. */
+body.prpr-theme {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh;
+}
+body.prpr-theme #main-content {
+  flex: 1 0 auto;
+}
+body.prpr-theme .footer,
+body.prpr-theme .footer-clear-element {
+  flex-shrink: 0;
 }
 
 /* (D) Banner ad slot wrappers — TOP-of-content and ABOVE-footer positions only.
@@ -6800,6 +6821,16 @@ body.prpr-theme .md-autosuggest .twitter-typeahead .input_wrapper {
 
 body.prpr-theme .md-autosuggest .input_wrapper .clear_content,
 body.prpr-theme .md-autosuggest .twitter-typeahead .input_wrapper .clear_content {
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+  right: 12px !important;
+}
+
+/* Sidebar search clear-X positioning — mirrors the .md-autosuggest rule
+   above for the .normal-autosuggest variant used by sidebar search widgets. */
+body.prpr-theme .normal-autosuggest .input_wrapper .clear_content,
+body.prpr-theme .normal-autosuggest .twitter-typeahead .input_wrapper .clear_content {
   top: 50% !important;
   bottom: auto !important;
   transform: translateY(-50%) !important;
