@@ -1,6 +1,4 @@
-/* VERSION 15.54 - May 6 2026
-   PURPOSE: Global override stylesheet for PRPR site on Brilliant Directories
-   LOCATION: Design > Custom CSS
+/* VERSION 15.56 - May 8 2026: Hide .location-search-field in Posts sidebar search modules.
    ===================================================== */
 
 /* FILE MAP
@@ -6829,6 +6827,19 @@ body.prpr-theme .website-search .twitter-typeahead>.input_wrapper {
   box-shadow: none !important;
 }
 
+/* The .input_wrapper is a <span> (display: inline by default). When inline,
+   its absolutely-positioned descendant's percentage `top` doesn't resolve
+   against the wrapper's visual height — it falls through to a different
+   containing block, leaving the X clear-button visibly off-center on initial
+   render (before BD's typeahead JS wraps the input). Force display: block to
+   make the wrapper a proper containing block for percentage positioning. */
+body.prpr-theme .website-search .input_wrapper,
+body.prpr-theme .md-autosuggest .input_wrapper,
+body.prpr-theme .normal-autosuggest .input_wrapper {
+  display: block !important;
+  position: relative !important;
+}
+
 body.prpr-theme .website-search .input_wrapper .clear_content {
   top: 50% !important;
   bottom: auto !important;
@@ -11687,6 +11698,15 @@ body.prpr-theme .disclaimer-box a {
 
 body.prpr-theme .disclaimer-box a:hover {
   color: #6F94FF;
+}
+
+/* Hide the location-search input in sidebar search modules on Posts pages.
+   Per BD docs (article 12000101405), there's no admin toggle for this on Posts
+   sidebars — the field is wrapped with .location-search-field for CSS-hide.
+   Bootstrap's .input-group rule on the same element wins on cascade with
+   display: flex, so we need higher specificity + !important to beat it. */
+body.prpr-theme .location-search-field {
+  display: none !important;
 }
 
 /* END OF PRPR GLOBAL STYLES */
