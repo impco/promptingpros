@@ -1,4 +1,20 @@
-/* VERSION 15.56 - May 8 2026: Hide .location-search-field in Posts sidebar search modules.
+/* VERSION 15.58 - May 18 2026: Posted By Snippet cleanup on Events / Jobs / Opps detail pages — hide "Post Date" label, hide empty date span, drop the leading " in " text before the category link, hide byline. Keeps date (if non-empty), category link, Save button, and calendar dropdown visible. Pure-CSS approach using font-size:0 on the wrapper + restored size on the inner link to nuke the text node.
+
+   v15.57 - May 11 2026: Restore comma-breathing for multi-value display. Two rules: (1) word-spacing on .badge for badges that hold a single comma-joined string ("Part-Time, Consulting, Fractional"); (2) ::after pseudo-separator on .checkbox_value siblings in the post detail sidebar for fields like Compensation Type. Single-value multi-word text ("AI Hybrid / Integrated", "Full Time") is NOT affected.
+
+   v15.56 - May 8 2026: Hide .location-search-field in Posts sidebar search modules.
+
+   v15.55 - May 7 2026
+   PURPOSE: Global override stylesheet for PRPR site on Brilliant Directories
+   LOCATION: Design > Custom CSS
+
+   v15.55: Force .input_wrapper (a <span>, default display: inline) to display: block
+   so that percentage `top` on the absolutely-positioned .clear_content X resolves
+   against the wrapper's visual height. Fixes the X drifting -15px above center
+   on URL-preloaded search pages (e.g. /search_results?q=...) before typeahead JS
+   wraps the input.
+
+   v15.54 - May 6 2026: refactor + 100px footer breathing room.
    ===================================================== */
 
 /* FILE MAP
@@ -3359,6 +3375,20 @@ body.prpr-theme .category-filter-btn {
   margin: var(--label-margin);
   transition: none;
   transform: none;
+  /* Extra space at every space char so comma-delimited badge content
+     like "Part-Time, Consulting, Fractional" breathes properly. */
+  word-spacing: 4px;
+}
+
+/* Comma-breathing for sidebar multi-value checkbox fields (e.g. Compensation
+   Type, Remote?). BD renders each checked value as a sibling .checkbox_value
+   span without a visible separator — add a comma + spacing after each one
+   except the last. Targets only .checkbox_value so single-value cells like
+   "AI Hybrid / Integrated" are unaffected. */
+body.prpr-theme .post-detail-sidebar .checkbox_value:not(:last-of-type)::after {
+  content: ", ";
+  margin-right: 4px;
+  word-spacing: normal;
 }
 
 /* Legacy label classes default to small size */
@@ -7241,6 +7271,32 @@ body.prpr-theme .posted-by-snippet {
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   margin-bottom: 0 !important;
+}
+
+/* Posted By Snippet cleanup (Events / Jobs / Opps detail pages).
+   Keep: date (if non-empty), category link, Save button, calendar
+         dropdown.
+   Hide: "Post Date" label text, empty date span, leading " in "
+         text node before the category link, byline.
+   The "in " text node is removed via font-size:0 on the wrapper +
+   restored font on the inner link — there's no CSS selector for
+   text nodes, so this is the cleanest pure-CSS approach. */
+body.prpr-theme .posted-by-snippet .posted-by-snippet-author {
+  display: none !important;
+}
+body.prpr-theme .posted-by-snippet .posted-by-snippet-posted {
+  display: none !important;
+}
+body.prpr-theme .posted-by-snippet .posted-by-snippet-date:empty {
+  display: none !important;
+}
+body.prpr-theme .posted-by-snippet .posted-by-snippet-category {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+body.prpr-theme .posted-by-snippet .posted-by-snippet-category > a {
+  font-size: 15px !important;
+  line-height: 1.4 !important;
 }
 
 /* Comments container styling */
