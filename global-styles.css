@@ -11765,4 +11765,8 @@ body.prpr-theme .location-search-field {
   display: none !important;
 }
 
+pagehead checkout-title {
+  visibility: hidden;
+}
+
 /* END OF PRPR GLOBAL STYLES */
