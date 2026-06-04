@@ -1,4 +1,8 @@
-/* VERSION 15.58 - May 18 2026: Posted By Snippet cleanup on Events / Jobs / Opps detail pages — hide "Post Date" label, hide empty date span, drop the leading " in " text before the category link, hide byline. Keeps date (if non-empty), category link, Save button, and calendar dropdown visible. Pure-CSS approach using font-size:0 on the wrapper + restored size on the inner link to nuke the text node.
+/* VERSION 15.60 - Jun 4 2026: Switch .pagehead.checkout-title hide from display:none to visibility:hidden — matches the working override in BD Custom CSS, preserves layout space above the signup form per design.
+
+   v15.59 - Jun 4 2026: Hide BD's auto-rendered "Create Account / [Plan]" header on checkout/signup pages so the Sign Up Page Description's custom hero is the only headline above the form.
+
+   v15.58 - May 18 2026: Posted By Snippet cleanup on Events / Jobs / Opps detail pages — hide "Post Date" label, hide empty date span, drop the leading " in " text before the category link, hide byline. Keeps date (if non-empty), category link, Save button, and calendar dropdown visible. Pure-CSS approach using font-size:0 on the wrapper + restored size on the inner link to nuke the text node.
 
    v15.57 - May 11 2026: Restore comma-breathing for multi-value display. Two rules: (1) word-spacing on .badge for badges that hold a single comma-joined string ("Part-Time, Consulting, Fractional"); (2) ::after pseudo-separator on .checkbox_value siblings in the post detail sidebar for fields like Compensation Type. Single-value multi-word text ("AI Hybrid / Integrated", "Full Time") is NOT affected.
 
@@ -11765,8 +11769,15 @@ body.prpr-theme .location-search-field {
   display: none !important;
 }
 
-pagehead checkout-title {
-  visibility: hidden;
+/* ===================================================================
+ * v15.60 — Checkout / signup page: hide BD's auto "Create Account /
+ * [Plan]" header text. The signup_free form's free_signup_header
+ * Custom HTML field renders the custom .prpr-checkout-hero block.
+ * Using visibility:hidden (not display:none) intentionally — preserves
+ * the layout space above the form per current design.
+ * =================================================================== */
+.pagehead.checkout-title {
+    visibility: hidden;
 }
 
 /* END OF PRPR GLOBAL STYLES */
